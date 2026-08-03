@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reserve my JLG ET500J 50' Lift in Mintues!</title>
+    <meta name="description" content="Reserve a 50' JLG lift online with availability checking and secure checkout." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <div class="hero__text">
+          <p class="eyebrow">Milton Lift Rentals</p>
+          <h1>Reserve my 50' JLG ET500J Lift in Minutes!</h1>
+          <p class="hero__copy">
+            Pickup-only rentals with transparent pricing and instant booking confirmation for your next job.
+          </p>
+          <div class="hero__actions">
+            <a href="#reserve" class="button button--primary">Reserve Now</a>
+            <a href="#availability" class="button button--secondary">Check Availability</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <img src="https://www.conger.com/wp-content/uploads/2024/10/ET500J_Extended_Front_RF.jpg" alt="2026 JLG ET500J aerial lift" />
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="info-strip">
+        <div>
+          <h2>1 Lift Available</h2>
+          <p>One well-maintained 50' JLG lift ready for weekly or short-term rentals.</p>
+        </div>
+        <div>
+          <h2>Daily Rate</h2>
+          <p>$100/day with a $25 deposit to hold your reservation.</p>
+          <p class="subtle">A $250 hold is placed until the lift is returned with no damage.</p>
+        </div>
+        <div>
+          <h2>Pickup Location</h2>
+          <p>Pickup only from 8457 NC HWY 62 N, Milton, NC 27305.</p>
+        </div>
+      </section>
+
+      <section id="reserve" class="grid">
+        <div class="card">
+          <h2>Reserve & Pay</h2>
+          <form id="bookingForm" class="booking-form">
+            <label>
+              Full name
+              <input type="text" name="customerName" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="customerEmail" required />
+            </label>
+            <label>
+              Phone
+              <input type="tel" name="customerPhone" required />
+            </label>
+            <div class="row">
+              <label>
+                Start date
+                <input type="date" name="startDate" required />
+              </label>
+              <label>
+                End date
+                <input type="date" name="endDate" required />
+              </label>
+            </div>
+            <label>
+              Pickup location
+              <input type="text" name="pickupLocation" value="8457 NC HWY 62 N, Milton, NC 27305" readonly />
+            </label>
+            <label>
+              Notes
+              <textarea name="notes" rows="3" placeholder="Job site details, access instructions, or special requests"></textarea>
+            </label>
+            <label>
+              Card details
+              <input type="text" name="cardNumber" placeholder="4242 4242 4242 4242" required />
+            </label>
+            <button type="submit" class="button button--primary">Reserve & Pay Deposit</button>
+          </form>
+          <div id="message" class="message" aria-live="polite"></div>
+        </div>
+
+        <div class="card">
+          <h2 id="availability">Availability</h2>
+          <p class="subtle">Choose a date range to see whether the lift is open.</p>
+          <div class="availability-summary" id="availabilitySummary"></div>
+          <div class="calendar-shell">
+            <div class="calendar-header">
+              <div id="calendarMonthLabel" class="calendar-month"></div>
+            </div>
+            <div class="calendar-weekdays">
+              <span>Sun</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-legend">
+              <span><span class="legend-swatch legend-swatch--available"></span> Available</span>
+              <span><span class="legend-swatch legend-swatch--selected"></span> Selected</span>
+              <span><span class="legend-swatch legend-swatch--booked"></span> Booked</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Specifications</h2>
+        <div class="spec-grid">
+          <div class="spec-item"><strong>50 ft. 5 in.</strong><span>Platform height</span></div>
+          <div class="spec-item"><strong>500 lbs.</strong><span>Platform capacity</span></div>
+          <div class="spec-item"><strong>29 ft. 6 in.</strong><span>Horizontal outreach</span></div>
+          <div class="spec-item"><strong>24V DC</strong><span>Power</span></div>
+          <div class="spec-item"><strong>65 mph</strong><span>Towing speed</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Upcoming Reservations</h2>
+        <div id="bookingList" class="booking-list"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Milton Lift Rentals • 1 x 50' JLG lift • Pickup at 8457 NC HWY 62 N, Milton, NC 27305</p>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

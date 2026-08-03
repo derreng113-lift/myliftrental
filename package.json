@@ -1,0 +1,9 @@
+{
+  "name": "milton-lift-rentals",
+  "version": "1.0.0",
+  "description": "Booking website for a 50' JLG lift rental business",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
