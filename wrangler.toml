@@ -1,6 +1,5 @@
 name = "milton-lift-rentals"
 compatibility_date = "2026-08-02"
 
-[site]
-bucket = "."
-entry-point = "."
+[assets]
+directory = "./dist"
