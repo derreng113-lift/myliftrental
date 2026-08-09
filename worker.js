@@ -65,10 +65,18 @@ export default {
 
         return Response.json({ url: data.url, sessionId: data.id });
       } catch (error) {
-        return Response.json({ error: 'Invalid checkout request.' }, { status: 400 });
+        console.error('Stripe checkout error:', error);
+        return Response.json({ error: error?.message || 'Invalid checkout request.' }, { status: 400 });
       }
     }
 
-    return env.__STATIC_CONTENT.fetch(request);
+    if (env.__STATIC_CONTENT && typeof env.__STATIC_CONTENT.fetch === 'function') {
+      return env.__STATIC_CONTENT.fetch(request);
+    }
+
+    return new Response('Static asset binding not found. Check your Wrangler site configuration and redeploy.', {
+      status: 500,
+      headers: { 'Content-Type': 'text/plain;charset=UTF-8' }
+    });
   }
 };
