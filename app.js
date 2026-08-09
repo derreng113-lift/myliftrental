@@ -43,6 +43,29 @@ function saveBookings(bookings) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
 }
 
+function calculateRentalDays(startDate, endDate) {
+  if (!startDate || !endDate) return 0;
+  const start = new Date(`${startDate}T00:00:00`);
+  const end = new Date(`${endDate}T00:00:00`);
+  const diff = Math.round((end - start) / 86400000);
+  return diff >= 0 ? diff + 1 : 0;
+}
+
+function updatePriceSummary() {
+  const startDate = form.elements.startDate.value;
+  const endDate = form.elements.endDate.value;
+  const days = calculateRentalDays(startDate, endDate);
+  const amount = 100 * days;
+  const summary = document.getElementById('priceSummary');
+
+  if (!days) {
+    summary.textContent = 'Estimated total: Select a valid rental range.';
+    return;
+  }
+
+  summary.textContent = `Estimated total: $${amount.toLocaleString()} for ${days} day${days === 1 ? '' : 's'}`;
+}
+
 function rangesOverlap(startA, endA, startB, endB) {
   return startA <= endB && startB <= endA;
 }
@@ -174,7 +197,7 @@ function renderBookings() {
     .join('');
 }
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
   resetMessage();
 
@@ -188,6 +211,13 @@ form.addEventListener('submit', (event) => {
   }
 
   const bookings = loadBookings();
+  const days = calculateRentalDays(startDate, endDate);
+
+  if (!days) {
+    setMessage('Please choose a valid rental range.', true);
+    return;
+  }
+
   const conflict = bookings.some((existing) => {
     const existingStart = new Date(`${existing.startDate}T00:00:00`);
     const existingEnd = new Date(`${existing.endDate}T00:00:00`);
@@ -199,27 +229,34 @@ form.addEventListener('submit', (event) => {
     return;
   }
 
-  const booking = {
-    id: `booking-${Date.now()}`,
-    ...payload,
-    paymentStatus: 'paid',
-    status: 'confirmed',
-    createdAt: new Date().toISOString()
-  };
+  try {
+    const response = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
 
-  bookings.push(booking);
-  saveBookings(bookings);
-  setMessage(`Reservation confirmed for ${payload.startDate} through ${payload.endDate}. Your deposit payment was accepted.`);
-  form.reset();
-  populateDefaultDates();
-  renderAvailability();
-  renderBookings();
+    const data = await response.json();
+
+    if (!response.ok || !data.url) {
+      setMessage(data.error || 'Unable to start checkout.', true);
+      return;
+    }
+
+    window.location.href = data.url;
+  } catch (error) {
+    setMessage('Unable to start checkout.', true);
+  }
 });
 
 ['startDate', 'endDate'].forEach((name) => {
-  form.elements[name].addEventListener('change', renderAvailability);
+  form.elements[name].addEventListener('change', () => {
+    renderAvailability();
+    updatePriceSummary();
+  });
 });
 
 populateDefaultDates();
 renderAvailability();
+updatePriceSummary();
 renderBookings();

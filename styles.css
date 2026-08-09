@@ -100,6 +100,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 16px; }
 .message { margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: rgba(66, 211, 168, 0.16); color: #bff9e5; display: none; }
 .message.error { background: rgba(255, 92, 92, 0.16); color: #ffd4d4; display: block; }
 .message.success { display: block; }
+.price-summary { margin: 12px 0 16px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,0.06); color: var(--text); font-weight: 700; }
 .availability-summary { padding: 14px; border-radius: 14px; background: rgba(255,255,255,0.06); margin-bottom: 12px; }
 .calendar-shell { border: 1px solid var(--border); border-radius: 16px; padding: 14px; background: rgba(255,255,255,0.04); }
 .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-weight: 700; }
