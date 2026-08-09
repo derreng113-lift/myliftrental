@@ -1,4 +1,5 @@
-name = "milton-lift-rentals"
+name = "myliftrental"
+workers_dev = true
 main = "worker.js"
 compatibility_date = "2026-08-02"
 
