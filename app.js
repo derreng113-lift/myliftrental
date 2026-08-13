@@ -55,12 +55,20 @@ function updatePriceSummary() {
   const startDate = form.elements.startDate.value;
   const endDate = form.elements.endDate.value;
   const days = calculateRentalDays(startDate, endDate);
-  const amount = 100 * days;
   const summary = document.getElementById('priceSummary');
 
   if (!days) {
     summary.textContent = 'Estimated total: Select a valid rental range.';
     return;
+  }
+
+  let amount;
+  if (days >= 2 && days <= 3) {
+    amount = 200;
+  } else if (days >= 5 && days <= 7) {
+    amount = 300;
+  } else {
+    amount = 100 * days;
   }
 
   summary.textContent = `Estimated total: $${amount.toLocaleString()} for ${days} day${days === 1 ? '' : 's'}`;

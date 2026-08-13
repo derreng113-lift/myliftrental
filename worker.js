@@ -7,6 +7,8 @@ export default {
         const body = await request.json();
         const stripeSecretKey = env.STRIPE_SECRET_KEY;
         const dailyRate = Number(env.STRIPE_DAILY_RATE || '10000');
+        const midTierRate = Number(env.STRIPE_MID_TIER_RATE || '20000');
+        const extendedRate = Number(env.STRIPE_EXTENDED_RATE || '30000');
 
         if (!stripeSecretKey) {
           return Response.json(
@@ -27,7 +29,15 @@ export default {
           return Response.json({ error: 'Invalid rental dates provided.' }, { status: 400 });
         }
 
-        const amount = dailyRate * days;
+        let amount;
+        if (days >= 2 && days <= 3) {
+          amount = midTierRate;
+        } else if (days >= 5 && days <= 7) {
+          amount = extendedRate;
+        } else {
+          amount = dailyRate * days;
+        }
+
         const currency = env.STRIPE_CURRENCY || 'usd';
         const description = `${days} day rental of JLG ET500J lift (${startDate} - ${endDate})`;
 
@@ -70,13 +80,10 @@ export default {
       }
     }
 
-    if (env.__STATIC_CONTENT && typeof env.__STATIC_CONTENT.fetch === 'function') {
-      return env.__STATIC_CONTENT.fetch(request);
+    if (env.ASSETS && typeof env.ASSETS.fetch === 'function') {
+      return env.ASSETS.fetch(request);
     }
 
-    return new Response('Static asset binding not found. Check your Wrangler site configuration and redeploy.', {
-      status: 500,
-      headers: { 'Content-Type': 'text/plain;charset=UTF-8' }
-    });
+    return new Response('Not found', { status: 404 });
   }
 };

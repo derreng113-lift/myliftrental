@@ -1,7 +1,9 @@
-name = "myliftrental"
+name = "miltonlift"
 workers_dev = true
 main = "worker.js"
-compatibility_date = "2026-08-02"
+compatibility_date = "2026-08-12"
 
-[site]
-bucket = "./dist"
+[assets]
+directory = "./"
+binding = "ASSETS"
+not_found_handling = "404-page"
